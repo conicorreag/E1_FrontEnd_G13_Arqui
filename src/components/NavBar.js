@@ -94,6 +94,19 @@ const NavBar = () => {
                 </NavItem>
               )}
 
+              {isAuthenticated && (
+                <NavItem>
+                  <NavLink
+                    tag={RouterNavLink}
+                    to="/compras"  // Ajusta este enlace a la ruta correcta para la billetera
+                    exact
+                    activeClassName="router-link-exact-active"
+                  >
+                    Mis Compras
+                  </NavLink>
+                </NavItem>
+              )}
+
             </Nav>
             <Nav className="d-none d-md-block" navbar>
               {!isAuthenticated && (

@@ -3,6 +3,9 @@ import { useParams, Link, useHistory } from "react-router-dom";
 import { Button, Container, Table, Form, FormGroup, Label, Input } from "reactstrap";
 import axios from "axios";  
 import Swal from "sweetalert2";
+import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
+
+
 
 const EmpresaDetalleComponent = () => {
   const { symbol } = useParams();
@@ -10,6 +13,7 @@ const EmpresaDetalleComponent = () => {
   const [cantidad, setCantidad] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);  // Cantidad de elementos por página
+  const { user } = useAuth0();
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -27,9 +31,11 @@ const EmpresaDetalleComponent = () => {
     setCurrentPage(prevPage => Math.max(prevPage - 1, 1));
   };
 
+
+
   useEffect(() => {
     // Realiza la solicitud GET al backend para obtener el historial de precios para el símbolo
-    axios.get(`${import.meta.env.VITE_BACKEND_URL}/stocks/${symbol}`)
+    axios.get(`http://0.0.0.0:8000/stocks/${symbol}`)
       .then(response => {
         setActionHistory(response.data);  // Actualiza el historial con la respuesta del backend
       })
@@ -40,12 +46,16 @@ const EmpresaDetalleComponent = () => {
   }, [symbol]);  
 
   const handleCompra = () => {
-    const user_id = "user123";  // Obtén el ID del usuario, puede ser desde tu sistema de autenticación
+    // const user_id = user.id;  // Obtén el ID del usuario, puede ser desde tu sistema de autenticación
     const datetime = new Date().toISOString();  // Fecha y hora de compra
     const quantity = cantidad;
 
     // Realiza la solicitud POST al backend para enviar la información de la compra
-    axios.post(`${import.meta.env.VITE_BACKEND_URL}/transactions/`, { user_id, datetime, symbol, quantity })
+    axios.post(`http://0.0.0.0:8000/transactions/`, { 
+      "user_id": user.id,
+    "datetime": datetime, 
+    "symbol": symbol,
+    "quantity": quantity })
       .then(response => {
         // Muestra un pop-up con el mensaje de éxito
         Swal.fire({

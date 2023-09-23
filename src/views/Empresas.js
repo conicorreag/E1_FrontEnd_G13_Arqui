@@ -4,6 +4,8 @@ import { useHistory } from "react-router-dom";
 import Loading from "../components/Loading";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import Axios from "axios";
+// import dotenv from 'dotenv';
+// dotenv.config();
 
 const EmpresasComponent = () => {
   const history = useHistory();
@@ -11,8 +13,11 @@ const EmpresasComponent = () => {
    const [empresas, setEmpresas] = useState([]);
   const [error, setError] = useState(null);
 
+  const url = process.env.REACT_APP_BACKEND_URL;
+  console.log('URL:', url);
+
    useEffect(() => {
-     Axios.get(`${import.meta.env.VITE_BACKEND_URL}/stocks`)
+     Axios.get(`${process.env.REACT_APP_BACKEND_URL}/stocks`)
        .then((response) => {
          setEmpresas(response.data);
          console.log('DATOS DE LAS EMPRESAS:', response.data);
@@ -46,7 +51,7 @@ const EmpresasComponent = () => {
         <tbody>
           {empresas.map((empresa, index) => (
             <tr key={index}>
-              <td>{empresa.name}</td>
+              <td>{empresa.shortName}</td>
               <td>{empresa.price}</td>
               <td>
                 <Button

@@ -15,10 +15,12 @@ export const BilleteraComponent = () => {
 
    const agregarSaldo = async () => {
      try {
-       const response = await Axios.put(`${import.meta.env.VITE_BACKEND_URL}/wallet/`, {
-         id_user: user.id,
+       const response = await Axios.put(`http://0.0.0.0:8000/wallet/`, {
+         user_id: user.id,
          amount: parseFloat(monto)
        });
+       
+       console.log("user_id", user.id);
 
        // Actualiza el saldo con el balance recibido del backend
        setSaldo(response.data.balance);

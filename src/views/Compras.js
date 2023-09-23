@@ -3,6 +3,8 @@ import { Container, Table } from "reactstrap";
 import Loading from "../components/Loading";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import axios from "axios";
+import dotenv from 'dotenv';
+dotenv.config();
 
 const ComprasComponent = () => {
   const { user } = useAuth0();
@@ -11,7 +13,7 @@ const ComprasComponent = () => {
 
   useEffect(() => {
     // Realiza una solicitud GET al backend para obtener las transacciones
-    axios.get(`${import.meta.env.VITE_BACKEND_URL}/stocks/${user.id}`)
+    axios.get(`http://0.0.0.0:8000/stocks/${user.id}`)
       .then(response => {
         setTransactions(response.data);
         setLoading(false);
