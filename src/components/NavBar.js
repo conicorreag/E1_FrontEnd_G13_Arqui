@@ -55,7 +55,7 @@ const NavBar = () => {
                   Home
                 </NavLink>
               </NavItem>
-              {isAuthenticated && (
+              {/* {isAuthenticated && (
                 <NavItem>
                   <NavLink
                     tag={RouterNavLink}
@@ -66,7 +66,47 @@ const NavBar = () => {
                     External API
                   </NavLink>
                 </NavItem>
+              
+              )} */}
+              {isAuthenticated && (
+                <NavItem>
+                  <NavLink
+                    tag={RouterNavLink}
+                    to="/billetera"  // Ajusta este enlace a la ruta correcta para la billetera
+                    exact
+                    activeClassName="router-link-exact-active"
+                  >
+                    Billetera
+                  </NavLink>
+                </NavItem>
               )}
+
+              {isAuthenticated && (
+                <NavItem>
+                  <NavLink
+                    tag={RouterNavLink}
+                    to="/empresas"  // Ajusta este enlace a la ruta correcta para la billetera
+                    exact
+                    activeClassName="router-link-exact-active"
+                  >
+                    Empresas
+                  </NavLink>
+                </NavItem>
+              )}
+
+              {isAuthenticated && (
+                <NavItem>
+                  <NavLink
+                    tag={RouterNavLink}
+                    to="/compras"  // Ajusta este enlace a la ruta correcta para la billetera
+                    exact
+                    activeClassName="router-link-exact-active"
+                  >
+                    Mis Compras
+                  </NavLink>
+                </NavItem>
+              )}
+
             </Nav>
             <Nav className="d-none d-md-block" navbar>
               {!isAuthenticated && (

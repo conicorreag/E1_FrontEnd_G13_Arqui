@@ -1,14 +1,18 @@
-import React, { Fragment } from "react";
-
-import Hero from "../components/Hero";
-import Content from "../components/Content";
+import React from "react";
 
 const Home = () => (
-  <Fragment>
-    <Hero />
-    <hr />
-    <Content />
-  </Fragment>
+  <div
+    style={{
+      color: "#024EAA",
+      height: "70vh", // Establece la altura al 100% del viewport
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+    }}
+  >
+    <h1>Bienvenidos a PPE Fintech Async</h1>
+  </div>
 );
 
 export default Home;
