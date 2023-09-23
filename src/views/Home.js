@@ -1,10 +1,18 @@
-import React, { Fragment } from "react";
-
+import React from "react";
 
 const Home = () => (
-
-    <h1 style={{ color:  "#024EAA" }} className="sr-only"> Bienvenidos a PPE Fintech Async</h1>
-
+  <div
+    style={{
+      color: "#024EAA",
+      height: "70vh", // Establece la altura al 100% del viewport
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+    }}
+  >
+    <h1>Bienvenidos a PPE Fintech Async</h1>
+  </div>
 );
 
 export default Home;

@@ -35,7 +35,7 @@ const EmpresaDetalleComponent = () => {
 
   useEffect(() => {
     // Realiza la solicitud GET al backend para obtener el historial de precios para el símbolo
-    axios.get(`http://0.0.0.0:8000/stocks/${symbol}`)
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/stocks/${symbol}`)
       .then(response => {
         setActionHistory(response.data);  // Actualiza el historial con la respuesta del backend
       })
@@ -51,8 +51,8 @@ const EmpresaDetalleComponent = () => {
     const quantity = cantidad;
 
     // Realiza la solicitud POST al backend para enviar la información de la compra
-    axios.post(`http://0.0.0.0:8000/transactions/`, { 
-      "user_id": user.id,
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/transactions/`, { 
+      "user_sub": user.sub,
     "datetime": datetime, 
     "symbol": symbol,
     "quantity": quantity })

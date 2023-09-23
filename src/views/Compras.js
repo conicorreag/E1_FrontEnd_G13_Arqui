@@ -3,8 +3,8 @@ import { Container, Table } from "reactstrap";
 import Loading from "../components/Loading";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import axios from "axios";
-import dotenv from 'dotenv';
-dotenv.config();
+// import dotenv from 'dotenv';
+// dotenv.config();
 
 const ComprasComponent = () => {
   const { user } = useAuth0();
@@ -13,7 +13,7 @@ const ComprasComponent = () => {
 
   useEffect(() => {
     // Realiza una solicitud GET al backend para obtener las transacciones
-    axios.get(`http://0.0.0.0:8000/stocks/${user.id}`)
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/transactions/${user.sub}`)
       .then(response => {
         setTransactions(response.data);
         setLoading(false);
@@ -48,7 +48,7 @@ const ComprasComponent = () => {
                 <td>{transaction.quantity}</td>
                 <td>{transaction.symbol}</td>
                 <td>{transaction.location}</td>
-                <td style={{ color: transaction.status === 'APPROVED' ? 'green' : (transaction.status === 'REJECTED' ? 'red' : 'yellow') }}>
+                <td style={{ color: transaction.status === 'approved' ? 'green' : (transaction.status === 'rejected' ? 'red' : 'yellow') }}>
                   {transaction.status}
                 </td>
               </tr>

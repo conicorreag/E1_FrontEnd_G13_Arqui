@@ -10,11 +10,11 @@ import Axios from "axios";
 const EmpresasComponent = () => {
   const history = useHistory();
   const { user } = useAuth0();
-   const [empresas, setEmpresas] = useState([]);
+  const [empresas, setEmpresas] = useState([]);
   const [error, setError] = useState(null);
 
-  const url = process.env.REACT_APP_BACKEND_URL;
-  console.log('URL:', url);
+  // const url = process.env.REACT_APP_BACKEND_URL;
+  // console.log('URL:', url);
 
    useEffect(() => {
      Axios.get(`${process.env.REACT_APP_BACKEND_URL}/stocks`)
@@ -31,6 +31,9 @@ const EmpresasComponent = () => {
 //   const empresas = [{"name":"Apple Inc.","symbol":"AAPL","price":173.93},{"name":"Amazon.com, Inc.","symbol":"AMZN","price":131.6},{"name":"Broadcom Inc.","symbol":"AVGO","price":808.36},{"name":"Compass, Inc.","symbol":"COMP","price":2.92},{"name":"Alphabet Inc.","symbol":"GOOGL","price":130.44},{"name":"LATAM AIRLINES GROUP SA SPONS A","symbol":"LTMAY","price":0.515},{"name":"Mastercard Incorporated","symbol":"MA","price":403.36},{"name":"Meta Platforms, Inc.","symbol":"META","price":295.73},{"name":"Microsoft Corporation","symbol":"MSFT","price":319.53},{"name":"Netflix, Inc.","symbol":"NFLX","price":384.15},{"name":"NVIDIA Corporation","symbol":"NVDA","price":410.17},{"name":"Procter & Gamble Company (The)","symbol":"PG","price":152.14},{"name":"Shell PLC","symbol":"SHEL","price":64.56},{"name":"Tesla, Inc.","symbol":"TSLA","price":246.67},{"name":"Walmart Inc.","symbol":"WMT","price":162.98}]
 
   const handleEmpresaDetailClick = (symbol) => {
+    console.log("--------holaaaaaaaaa------------------")
+    console.log('---------Símbolo:-----------\n', symbol);
+    console.log(`/empresa-detalle/${symbol}`);
     history.push(`/empresa-detalle/${symbol}`);
   };
 
