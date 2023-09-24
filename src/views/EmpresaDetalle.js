@@ -25,6 +25,7 @@ const EmpresaDetalleComponent = () => {
     getAccessTokenSilently,
     loginWithPopup,
     getAccessTokenWithPopup,
+    generateAuth0Token,
   } = useAuth0();
 
   const totalPages = Math.ceil(actionHistory.length / itemsPerPage);
@@ -51,46 +52,7 @@ const EmpresaDetalleComponent = () => {
       });
   }, [symbol]);  
 
-//   const handleCompra = () => {
-//     // const user_id = user.id;  // Obtén el ID del usuario, puede ser desde tu sistema de autenticación
-//     const datetime = new Date().toISOString();  // Fecha y hora de compra
-//     const quantity = cantidad;
 
-//     // Realiza la solicitud POST al backend para enviar la información de la compra
-
-//     // Configura los encabezados con el token de autenticación
-//     const header = {
-//       Authorization: `Bearer ${getAccessTokenSilently}`,
-//     };
-
-//     axios.post(`${process.env.REACT_APP_BACKEND_URL}/transactions`, { 
-//     "user_sub": user.sub,
-//     "datetime": datetime, 
-//     "symbol": symbol,
-//     "quantity": quantity },
-//     {
-//      "header": header  // Agrega los encabezados con el token de autenticación
-//     })
-//       .then(response => {
-//         // Muestra un pop-up con el mensaje de éxito
-//         Swal.fire({
-//           title: 'Solicitud enviada',
-//           text: 'La solicitud de compra ha sido enviada correctamente.',
-//           icon: 'success',
-//           confirmButtonText: 'OK'
-//         });
-//       })
-//       .catch(error => {
-//         console.error('Error al enviar la solicitud de compra:', error);
-//         // Muestra un pop-up con el mensaje de error
-//         Swal.fire({
-//           title: 'Error',
-//           text: 'Hubo un error al enviar la solicitud de compra.',
-//           icon: 'error',
-//           confirmButtonText: 'OK'
-//         });
-//       });
-// };
 
   const handleCompra = async () => {
     const datetime = new Date().toISOString();  // Fecha y hora de compra
@@ -99,10 +61,16 @@ const EmpresaDetalleComponent = () => {
     try {
       // Obtén el token de acceso de forma silenciosa
       const token = await getAccessTokenSilently();
-      console.log("------------tokeeeeeen-------------------")
+      // const token = await generateAuth0Token();
+      console.log("------------tokeeeeeen111111-------------------")
       console.log("Authorization: Bearer", token)
+      console.log("------------type token-------------------")
+      console.log(typeof(token))
       // Configura los encabezados con el token de autenticación
-      
+      const tokenBearer = "Bearer " + token;
+      console.log("------------token bearer-------------------")
+      console.log(tokenBearer)
+      console.log(typeof(tokenBearer))
 
       // Realiza la solicitud POST al backend para enviar la información de la compra
       const response = await axios.post(
@@ -111,9 +79,10 @@ const EmpresaDetalleComponent = () => {
           "user_sub": user.sub,
           "datetime": datetime, 
           "symbol": symbol,
-          "quantity": quantity,
+          "quantity": quantity},
+          {
           headers: {
-            'Authorization': `Bearer ${token}`
+            Authorization: tokenBearer
           }}
       );
         console.log("------------tokeeeeeen-------------------")
