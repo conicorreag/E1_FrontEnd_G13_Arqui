@@ -17,6 +17,7 @@ const EmpresasComponent = () => {
   // console.log('URL:', url);
 
    useEffect(() => {
+    
      Axios.get(`${process.env.REACT_APP_BACKEND_URL}/stocks`)
        .then((response) => {
          setEmpresas(response.data);

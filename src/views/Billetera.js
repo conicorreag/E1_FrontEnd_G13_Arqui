@@ -30,7 +30,7 @@ export const BilleteraComponent = () => {
 
    const agregarSaldo = async () => {
      try {
-       const response = await Axios.put(`${process.env.REACT_APP_BACKEND_URL}/wallet/`, {
+       const response = await Axios.put(`${process.env.REACT_APP_BACKEND_URL}/wallet`, {
          user_sub: user.sub,
          amount: parseFloat(monto)
        });
