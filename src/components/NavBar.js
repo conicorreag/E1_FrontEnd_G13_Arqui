@@ -107,6 +107,19 @@ const NavBar = () => {
                 </NavItem>
               )}
 
+              {isAuthenticated && (
+                <NavItem>
+                  <NavLink
+                    tag={RouterNavLink}
+                    to="/predicciones"  // Ajusta este enlace a la ruta correcta para la billetera
+                    exact
+                    activeClassName="router-link-exact-active"
+                  >
+                    Mis Predicciones
+                  </NavLink>
+                </NavItem>
+              )}
+
             </Nav>
             <Nav className="d-none d-md-block" navbar>
               {!isAuthenticated && (

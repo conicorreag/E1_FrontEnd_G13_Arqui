@@ -12,6 +12,7 @@ import Billetera from "./views/Billetera";
 import EmpresaDetalle from "./views/EmpresaDetalle";
 import Empresas from "./views/Empresas";
 import Compras from "./views/Compras";
+import Predicciones from "./views/Predicciones";
 import { useAuth0 } from "@auth0/auth0-react";
 import history from "./utils/history";
 
@@ -46,6 +47,8 @@ const App = () => {
             <Route path="/billetera" component={Billetera} />
             <Route path="/empresas" component={Empresas} />
             <Route path="/compras" component={Compras} />
+            <Route path="/predicciones" component={Predicciones} />
+            
           </Switch>
 
           <Switch>
