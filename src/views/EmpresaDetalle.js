@@ -16,6 +16,7 @@ const EmpresaDetalleComponent = () => {
   const { user } = useAuth0();
   const [buying, setBuying] = useState(false);
   const [predicting, setPredicting] = useState(false);
+  const [predictionMessage, setPredictionMessage] = useState("");
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -38,6 +39,12 @@ const EmpresaDetalleComponent = () => {
 
   const handlePrevPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
+  const resetForm = () => {
+    setPredictionDate("");
+    setCantidad("");
+    setPredictionMessage("");
   };
 
   useEffect(() => {
@@ -125,9 +132,9 @@ const EmpresaDetalleComponent = () => {
     };
   
     try {
-      // Realiza la solicitud POST al backend para enviar la información de la predicción
+      //Realiza la solicitud POST al backend para enviar la información de la predicción
       const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/prediction`,
+        `${process.env.REACT_APP_BACKEND_URL}/create_prediction`,
         predictionData,
         {
           headers: {
@@ -135,15 +142,28 @@ const EmpresaDetalleComponent = () => {
           },
         }
       );
+
+      if (response.data && response.data.message === "job published") {
+
+        // La simulación se ha creado con éxito
+        setPredictionMessage("El trabajo de simulación ha sido creado con éxito.");
+      } else {
+        // La respuesta no tiene el mensaje esperado
+        setPredictionMessage("Error al crear el trabajo de simulación.");
+      }
   
-      // Muestra un pop-up con el mensaje de éxito
+      // Muestra un pop-up con el mensaje de éxito o error
       Swal.fire({
-        title: "Predicción realizada",
-        text: "La predicción ha sido realizada correctamente.",
-        icon: "success",
+        title: predictionMessage ? "Éxito" : "Error",
+        text: predictionMessage || "Hubo un error al realizar la simulación.",
+        icon: predictionMessage ? "success" : "error",
         confirmButtonText: "OK",
       });
-    } catch (error) {
+
+      resetForm(); // Reiniciar el formulario después de la respuesta
+      } 
+      
+      catch (error) {
       console.error("Error al enviar la solicitud de predicción:", error);
       // Muestra un pop-up con el mensaje de error
       Swal.fire({
@@ -152,8 +172,8 @@ const EmpresaDetalleComponent = () => {
         icon: "error",
         confirmButtonText: "OK",
       });
-    }
-  };
+      }
+      };
   
 
   return (
