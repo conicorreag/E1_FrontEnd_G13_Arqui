@@ -48,6 +48,7 @@ const App = () => {
             <Route path="/empresas" component={Empresas} />
             <Route path="/compras" component={Compras} />
             <Route path="/predicciones" component={Predicciones} />
+
             
           </Switch>
 

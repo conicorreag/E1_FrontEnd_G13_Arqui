@@ -17,6 +17,8 @@ const EmpresaDetalleComponent = () => {
   const [buying, setBuying] = useState(false);
   const [predicting, setPredicting] = useState(false);
   const [predictionMessage, setPredictionMessage] = useState("");
+  const [formActionUrl, setFormActionUrl] = useState("");
+  const[webpayToken, setWebpayToken] = useState("");
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -58,9 +60,10 @@ const EmpresaDetalleComponent = () => {
         console.error("Error al obtener el historial de precios:", error);
         // Puedes manejar el error aquí
       });
-  }, [symbol]);
+    console.log(formActionUrl,"form")
+  }, [symbol,formActionUrl]);
 
-  const handleCompra = async () => {
+  const handleCompra = async (e) => {
     const datetime = new Date().toISOString(); // Fecha y hora de compra
     const quantity = cantidad;
 
@@ -88,14 +91,18 @@ const EmpresaDetalleComponent = () => {
           }
         }
       );
+      setFormActionUrl(response.data.url);
+      setWebpayToken(response.data.token);
+      console.log("hola",formActionUrl,response.data,response.data.url)
+      return response.data
 
       // Muestra un pop-up con el mensaje de éxito
-      Swal.fire({
-        title: "Solicitud enviada",
-        text: "La solicitud de compra ha sido enviada correctamente.",
-        icon: "success",
-        confirmButtonText: "OK",
-      });
+      // Swal.fire({
+      //   title: "Solicitud enviada",
+      //   text: "La solicitud de compra ha sido enviada correctamente.",
+      //   icon: "success",
+      //   confirmButtonText: "OK",
+      // });
     } catch (error) {
       console.error("Error al enviar la solicitud de compra:", error);
       // Muestra un pop-up con el mensaje de error
@@ -205,7 +212,13 @@ const EmpresaDetalleComponent = () => {
       </div>
 
       {buying && (
-        <Form>
+        <Form method="POST" action= {formActionUrl} onSubmit={async (e)=>{
+          e.preventDefault();
+          console.log(formActionUrl)
+          const response = await handleCompra(e);
+          console.log(formActionUrl)
+          e.target.submit();
+        }}>
           <FormGroup>
             <Label for="cantidad">Cantidad a comprar</Label>
             <Input
@@ -216,6 +229,7 @@ const EmpresaDetalleComponent = () => {
               onChange={(e) => setCantidad(e.target.value)}
             />
           </FormGroup>
+          <Input type="hidden" name="token_ws" value={webpayToken} />
           <Button
             style={{
               display: "block", // Hace que el botón ocupe todo el ancho disponible
@@ -223,7 +237,7 @@ const EmpresaDetalleComponent = () => {
             }}
             color="success"
             size="lg"
-            onClick={handleCompra}
+            onClick={async ()=>{handleCompra()}}
           >
             Comprar
           </Button>
