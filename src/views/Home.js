@@ -13,6 +13,7 @@ const Home = () => (
   >
     <h1>Bienvenidos a PPE Fintech Async</h1>
   </div>
+
 );
 
 export default Home;

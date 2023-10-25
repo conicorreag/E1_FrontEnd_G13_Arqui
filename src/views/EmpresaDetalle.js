@@ -16,11 +16,19 @@ const EmpresaDetalleComponent = () => {
   const { user } = useAuth0();
   const [buying, setBuying] = useState(false);
   const [predicting, setPredicting] = useState(false);
-  const [predictionMessage, setPredictionMessage] = useState("");
+  const [predictionMessage, setPredictionMessage] = useState(true);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = actionHistory.slice(indexOfFirstItem, indexOfLastItem);
+
+  const getCurrentDate = () => {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // Añade un cero al mes si es necesario
+    const day = String(currentDate.getDate()).padStart(2, "0"); // Añade un cero al día si es necesario
+    return `${year}-${month}-${day}`;
+  };
 
   const history = useHistory();
 
@@ -44,7 +52,7 @@ const EmpresaDetalleComponent = () => {
   const resetForm = () => {
     setPredictionDate("");
     setCantidad("");
-    setPredictionMessage("");
+    setPredictionMessage(false);
   };
 
   useEffect(() => {
@@ -130,6 +138,8 @@ const EmpresaDetalleComponent = () => {
       user_sub: user.sub      
 
     };
+
+    console.log(predictionData);
   
     try {
       //Realiza la solicitud POST al backend para enviar la información de la predicción
@@ -143,25 +153,38 @@ const EmpresaDetalleComponent = () => {
         }
       );
 
+      console.log("hola");
+      //imprimir la response.data.message
+      console.log(response.data.message);
+
+
       if (response.data && response.data.message === "job published") {
+        console.log("El job si fue publicado");
 
         // La simulación se ha creado con éxito
-        setPredictionMessage("El trabajo de simulación ha sido creado con éxito.");
+        setPredictionMessage(true);
+        console.log("El mensaje es: " + predictionMessage);
+
       } else {
         // La respuesta no tiene el mensaje esperado
-        setPredictionMessage("Error al crear el trabajo de simulación.");
+        setPredictionMessage(false);
       }
   
+
+      await new Promise(resolve => setTimeout(resolve, 0));
+      console.log("El mensaje es: " + predictionMessage);
       // Muestra un pop-up con el mensaje de éxito o error
       Swal.fire({
-        title: predictionMessage ? "Éxito" : "Error",
-        text: predictionMessage || "Hubo un error al realizar la simulación.",
-        icon: predictionMessage ? "success" : "error",
+        title: predictionMessage === true ? "Éxito" : "Error",
+        text: "Simulación enviada correctamente" || "Hubo un error al realizar la simulación.",
+        icon: predictionMessage === true ? "success" : "error",
         confirmButtonText: "OK",
       });
 
-      resetForm(); // Reiniciar el formulario después de la respuesta
+      // resetForm(); // Reiniciar el formulario después de la respuesta
       } 
+
+      //Cuando no entra al try pq no hubo respuesta del backend
       
       catch (error) {
       console.error("Error al enviar la solicitud de predicción:", error);
@@ -237,6 +260,7 @@ const EmpresaDetalleComponent = () => {
             <Input
               type="date"
               id="predictionDate"
+              min={getCurrentDate()} 
               value={predictionDate}
               onChange={(e) => setPredictionDate(e.target.value)}
             />
@@ -296,6 +320,7 @@ const EmpresaDetalleComponent = () => {
         </Button>
       </div>
     </Container>
+
   );
 };
 
