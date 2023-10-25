@@ -5,7 +5,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 
-const CompraDetalle = () => {
+const CompraDetalleComponent = () => {
 const [token, setToken] = useState(null);
 const [requestID, setRequestID] = useState(null);
 const location = useLocation();
@@ -36,6 +36,7 @@ const handleToken = () => {
         });
         });
 }
+handleToken();
 history.push("/compras");
 }
 

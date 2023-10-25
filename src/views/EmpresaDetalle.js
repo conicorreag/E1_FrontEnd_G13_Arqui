@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import { useParams, Link, useHistory } from "react-router-dom";
 import { Button, Container, Table, Form, FormGroup, Label, Input } from "reactstrap";
 import axios from "axios";
@@ -19,6 +19,8 @@ const EmpresaDetalleComponent = () => {
   const [predictionMessage, setPredictionMessage] = useState("");
   const [formActionUrl, setFormActionUrl] = useState("");
   const[webpayToken, setWebpayToken] = useState("");
+  const [sumbitReady, setSubmitReady] = useState(false);
+  const formRef = useRef(null);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -60,10 +62,13 @@ const EmpresaDetalleComponent = () => {
         console.error("Error al obtener el historial de precios:", error);
         // Puedes manejar el error aquí
       });
-    console.log(formActionUrl,"form")
+    if(sumbitReady === true && formActionUrl !== ""){
+      console.log("llegue")
+      formRef.current.submit();
+    }
   }, [symbol,formActionUrl]);
 
-  const handleCompra = async (e) => {
+  const handleCompra = async () => {
     const datetime = new Date().toISOString(); // Fecha y hora de compra
     const quantity = cantidad;
 
@@ -91,10 +96,13 @@ const EmpresaDetalleComponent = () => {
           }
         }
       );
-      setFormActionUrl(response.data.url);
-      setWebpayToken(response.data.token);
-      console.log("hola",formActionUrl,response.data,response.data.url)
-      return response.data
+      const data = JSON.parse(response.data)
+      setFormActionUrl(data.url);
+      setWebpayToken(data.token);
+      console.log("hola",formActionUrl,data.url)
+      console.log(typeof(data))
+      console.log("este",sumbitReady)
+      return data
 
       // Muestra un pop-up con el mensaje de éxito
       // Swal.fire({
@@ -212,12 +220,12 @@ const EmpresaDetalleComponent = () => {
       </div>
 
       {buying && (
-        <Form method="POST" action= {formActionUrl} onSubmit={async (e)=>{
+        <Form method="POST" action= {formActionUrl} innerRef={formRef} onSubmit={async (e)=>{
+          
           e.preventDefault();
-          console.log(formActionUrl)
-          const response = await handleCompra(e);
-          console.log(formActionUrl)
-          e.target.submit();
+          handleCompra();
+          setSubmitReady(true)
+          console.log(" submit")
         }}>
           <FormGroup>
             <Label for="cantidad">Cantidad a comprar</Label>
@@ -231,13 +239,13 @@ const EmpresaDetalleComponent = () => {
           </FormGroup>
           <Input type="hidden" name="token_ws" value={webpayToken} />
           <Button
+          type="submit"
             style={{
               display: "block", // Hace que el botón ocupe todo el ancho disponible
               margin: "20px auto", // Agrega espaciado arriba y abajo y lo centra horizontalmente
             }}
             color="success"
             size="lg"
-            onClick={async ()=>{handleCompra()}}
           >
             Comprar
           </Button>
