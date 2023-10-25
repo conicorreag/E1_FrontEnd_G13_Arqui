@@ -7,6 +7,8 @@ import Loading from "../components/Loading";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import axios from "axios";
 import { Line } from 'react-chartjs-2';
+import Modal from 'react-modal';
+
 
 
 const PrediccionesComponent = () => {
@@ -14,7 +16,20 @@ const PrediccionesComponent = () => {
     const [predictions, setPredictions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [chartData, setChartData] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalTitle, setModalTitle] = useState('');
+    const [estimatedGain, setEstimatedGain] = useState(0);
+
+    const openModal = (title, gain) => {
+      setModalTitle(title);
+      setEstimatedGain(gain);
+      setIsModalOpen(true);
+    };
   
+    const closeModal = () => {
+      setIsModalOpen(false);
+    };
+
     useEffect(() => {
       // Realiza una solicitud GET al backend para obtener las transacciones
       axios.get(`${process.env.REACT_APP_BACKEND_URL}/user_predictions/${user.sub}`)
@@ -31,15 +46,21 @@ const PrediccionesComponent = () => {
     // Función para mostrar el gráfico
     const handleVerGrafico = (prediction) => {
 
-      console.log("predicciones 1: ", predictions);
 
-      console.log("La fechas futuras son: ", prediction.future_dates);
-      console.log("Los precios futuros son: ", prediction.future_prices);
+      //imprimir ganancia total estimada
+      console.log(prediction.final_price);
+      
+
+      const formattedDates = prediction.future_dates.map(dateString => dateString.slice(0, 19));
+      const estimatedGain = prediction.final_price; // Obtén la ganancia estimada
+      setModalTitle('Predicción de las ganancias'); // Establece el título del modal
+      openModal('Prediccion de las ganancias', estimatedGain); // Abre el modal y pasa la ganancia estimada
+
 
       const data = {
 
 
-        labels: prediction.future_dates, // Fechas en el eje X
+        labels: formattedDates, // Fechas en el eje X
         datasets: [
           {
             label: 'Precios',
@@ -101,11 +122,48 @@ const PrediccionesComponent = () => {
         </Table>
       )}
 
-      {chartData && (
-        <div>
+    {chartData && (
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        contentLabel={modalTitle}
+        ariaHideApp={false}
+        style={{
+          overlay: {
+            // Agrega estilos para el fondo oscuro detrás del pop-up si es necesario
+          },
+          content: {
+            maxHeight: '100%',
+            width: '90%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+          },
+        }}
+      >
+
+      <button
+        onClick={closeModal}
+        style={{
+        position: 'absolute',
+        top: '10px',
+        right: '10px',
+        background: 'transparent',
+        border: 'none',
+        cursor: 'pointer',
+        fontSize: '30px', 
+      }}
+      >
+          <span aria-hidden="true">×</span> {/* Puedes usar otro icono aquí */}
+      </button>
+
+        <h2 style={{ textAlign: 'center', color: 'rgba(75, 192, 192, 1)' }}>Ganancia total estimada: {estimatedGain.toFixed(2)} </h2>
+        <div style={{ width: '80%', height: '80%' }}>
           <Line data={chartData} />
         </div>
-      )}
+      </Modal>
+    )}
 
     </Container>
 
