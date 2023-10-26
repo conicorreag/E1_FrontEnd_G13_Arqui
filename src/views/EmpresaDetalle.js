@@ -16,6 +16,7 @@ const EmpresaDetalleComponent = () => {
   const { user } = useAuth0();
   const [buying, setBuying] = useState(false);
   const [predicting, setPredicting] = useState(false);
+  const [status, setStatus] = useState("");
 
   const [predictionMessage, setPredictionMessage] = useState(true);
   const [formActionUrl, setFormActionUrl] = useState("");
@@ -72,7 +73,8 @@ const EmpresaDetalleComponent = () => {
         console.error("Error al obtener el historial de precios:", error);
         // Puedes manejar el error aquí
       });
-    if(sumbitReady === true && formActionUrl !== ""){
+      
+    if(sumbitReady === true && formActionUrl !== "" && status !== "rejected"){
       console.log("llegue")
       formRef.current.submit();
     }
@@ -109,6 +111,7 @@ const EmpresaDetalleComponent = () => {
       const data = JSON.parse(response.data)
       setFormActionUrl(data.url);
       setWebpayToken(data.token);
+      setStatus(data.status);
       console.log("hola",formActionUrl,data.url)
       console.log(typeof(data))
       console.log("este",sumbitReady)
