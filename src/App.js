@@ -11,6 +11,7 @@ import ExternalApi from "./views/ExternalApi";
 import Billetera from "./views/Billetera";
 import EmpresaDetalle from "./views/EmpresaDetalle";
 import Empresas from "./views/Empresas";
+import CompraDetalle from "./views/CompraDetalle";
 import Compras from "./views/Compras";
 import Predicciones from "./views/Predicciones";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -48,6 +49,7 @@ const App = () => {
             <Route path="/empresas" component={Empresas} />
             <Route path="/compras" component={Compras} />
             <Route path="/predicciones" component={Predicciones} />
+            <Route path="/compraDetalle" component={CompraDetalle} />
             
           </Switch>
 

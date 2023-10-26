@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import { useParams, Link, useHistory } from "react-router-dom";
 import { Button, Container, Table, Form, FormGroup, Label, Input } from "reactstrap";
 import axios from "axios";
@@ -16,7 +16,13 @@ const EmpresaDetalleComponent = () => {
   const { user } = useAuth0();
   const [buying, setBuying] = useState(false);
   const [predicting, setPredicting] = useState(false);
+
   const [predictionMessage, setPredictionMessage] = useState(true);
+  const [formActionUrl, setFormActionUrl] = useState("");
+  const[webpayToken, setWebpayToken] = useState("");
+  const [sumbitReady, setSubmitReady] = useState(false);
+  const formRef = useRef(null);
+
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -66,7 +72,11 @@ const EmpresaDetalleComponent = () => {
         console.error("Error al obtener el historial de precios:", error);
         // Puedes manejar el error aquí
       });
-  }, [symbol]);
+    if(sumbitReady === true && formActionUrl !== ""){
+      console.log("llegue")
+      formRef.current.submit();
+    }
+  }, [symbol,formActionUrl]);
 
   const handleCompra = async () => {
     const datetime = new Date().toISOString(); // Fecha y hora de compra
@@ -96,14 +106,21 @@ const EmpresaDetalleComponent = () => {
           }
         }
       );
+      const data = JSON.parse(response.data)
+      setFormActionUrl(data.url);
+      setWebpayToken(data.token);
+      console.log("hola",formActionUrl,data.url)
+      console.log(typeof(data))
+      console.log("este",sumbitReady)
+      return data
 
       // Muestra un pop-up con el mensaje de éxito
-      Swal.fire({
-        title: "Solicitud enviada",
-        text: "La solicitud de compra ha sido enviada correctamente.",
-        icon: "success",
-        confirmButtonText: "OK",
-      });
+      // Swal.fire({
+      //   title: "Solicitud enviada",
+      //   text: "La solicitud de compra ha sido enviada correctamente.",
+      //   icon: "success",
+      //   confirmButtonText: "OK",
+      // });
     } catch (error) {
       console.error("Error al enviar la solicitud de compra:", error);
       // Muestra un pop-up con el mensaje de error
@@ -231,7 +248,13 @@ const EmpresaDetalleComponent = () => {
       </div>
 
       {buying && (
-        <Form>
+        <Form method="POST" action= {formActionUrl} innerRef={formRef} onSubmit={async (e)=>{
+          
+          e.preventDefault();
+          handleCompra();
+          setSubmitReady(true)
+          console.log(" submit")
+        }}>
           <FormGroup>
             <Label for="cantidad">Cantidad a comprar</Label>
             <Input
@@ -242,14 +265,15 @@ const EmpresaDetalleComponent = () => {
               onChange={(e) => setCantidad(e.target.value)}
             />
           </FormGroup>
+          <Input type="hidden" name="token_ws" value={webpayToken} />
           <Button
+          type="submit"
             style={{
               display: "block", // Hace que el botón ocupe todo el ancho disponible
               margin: "20px auto", // Agrega espaciado arriba y abajo y lo centra horizontalmente
             }}
             color="success"
             size="lg"
-            onClick={handleCompra}
           >
             Comprar
           </Button>
