@@ -6,13 +6,13 @@ const Home = () => {
 
   useEffect(() => {
     // Realizar una solicitud GET al backend para obtener el estado del heartbeat
-    axios.get(`${process.env.REACT_APP_BACKEND_URL}/get_heartbeat`)
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/job_heartbeat`)
       .then(response => {
         setHeartbeatStatus(response.data.status); // Supongo que el estado se encuentra en response.data.status
       })
       .catch(error => {
         console.error('Error al obtener el estado del heartbeat:', error);
-        setHeartbeatStatus(false); // Establecer el estado como false en caso de error
+        setHeartbeatStatus("false"); // Establecer el estado como false en caso de error
       });
   }, []);
 
@@ -29,7 +29,7 @@ const Home = () => {
     >
       <h1>Bienvenidos a PPE Fintech Async</h1>
       {heartbeatStatus !== null ? (
-        <h2>Estado del Jobmaster: {heartbeatStatus ? "Activo" : "Inactivo"}</h2>
+        <h2>Estado del Jobmaster: {heartbeatStatus === "true"? "Activo" : "Inactivo"}</h2>
       ) : (
         <h2>Cargando estado del Jobmaster...</h2>
       )}

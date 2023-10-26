@@ -176,7 +176,10 @@ const EmpresaDetalleComponent = () => {
       // Muestra un pop-up con el mensaje de éxito o error
       Swal.fire({
         title: predictionMessage === true ? "Éxito" : "Error",
-        text: "Simulación enviada correctamente" || "Hubo un error al realizar la simulación.",
+        html: `
+        <p>Simulación enviada correctamente</p>
+        <p>El ID del trabajo creado es: ${response.data.job_id || "No hay job creado"}</p>
+      `,
         icon: predictionMessage === true ? "success" : "error",
         confirmButtonText: "OK",
       });
