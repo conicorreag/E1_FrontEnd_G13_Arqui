@@ -18,10 +18,21 @@ const location = useLocation();
 
 const handleToken = () => {
     const params = new URLSearchParams(window.location.search);
-    const token1 = params.get('token_ws');
-    const data = {
-        "token": token1,
-    };
+    const token_ws = params.get('token_ws');
+    const tbk_token = params.get('TBK_TOKEN');
+    if (token_ws) {
+        const data = {
+            "token": token_ws,
+            "tbk":false
+        };
+    }
+    else if (tbk_token) {
+        const data = {
+            "token": tbk_token,
+            "tbk":true
+        };
+    }
+
     console.log("token1", token1);
     axios
         .post(`${process.env.REACT_APP_BACKEND_URL}/transactions_webpay`, data)
