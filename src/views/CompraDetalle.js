@@ -20,14 +20,15 @@ const handleToken = () => {
     const params = new URLSearchParams(window.location.search);
     const token_ws = params.get('token_ws');
     const tbk_token = params.get('TBK_TOKEN');
+    let data;
     if (token_ws) {
-        const data = {
+        data = {
             "token": token_ws,
             "tbk":false
         };
     }
     else if (tbk_token) {
-        const data = {
+        data = {
             "token": tbk_token,
             "tbk":true
         };
