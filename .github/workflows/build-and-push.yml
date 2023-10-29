@@ -1,0 +1,50 @@
+name: Deploy to S3 and Invalidate CloudFront Cache
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read  # This is required for actions/checkout
+
+jobs:
+  S3PackageUpload:
+    runs-on: ubuntu-latest
+    env:
+      BUCKET_NAME: e1g13frontend
+      REGION: us-east-2
+      DIST_ID: E73LQEDSM3Z4U 
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18' 
+
+      - name: Install dependencies with Yarn
+        run: npm install --immutable
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.REGION }}
+
+      - name: Build Frontend with Yarn
+        run: npm build
+
+      - name: Deploy changes to S3
+        run: aws s3 sync dist/ s3://${{ env.BUCKET_NAME }} --delete
+
+      - name: Create CloudFront Invalidation
+        id: create_invalidation
+        run: aws cloudfront create-invalidation --distribution-id ${{ env.DIST_ID }} --paths "/*"
+
+      - name: Cache Invalidation Verification
+        run: aws cloudfront get-invalidation --id ${{ steps.create_invalidation.outputs.id }} --distribution-id ${{ env.DIST_ID }}"
