@@ -26,8 +26,8 @@ jobs:
         with:
           node-version: '18' 
 
-      - name: Install dependencies with Yarn
-        run: npm install --immutable
+      - name: Install dependencies
+        run: npm install
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
