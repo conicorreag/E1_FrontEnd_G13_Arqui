@@ -37,7 +37,7 @@ jobs:
           aws-region: ${{ env.REGION }}
 
       - name: Build Frontend with Yarn
-        run: npm build
+        run: npm run build
 
       - name: Deploy changes to S3
         run: aws s3 sync dist/ s3://${{ env.BUCKET_NAME }} --delete
