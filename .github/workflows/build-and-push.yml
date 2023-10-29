@@ -1,4 +1,4 @@
-name: Deploy to S3 and Invalidate Cache
+name: Deploy to S3 and Invalidate Cloudfront Cache
 
 on:
   push:
