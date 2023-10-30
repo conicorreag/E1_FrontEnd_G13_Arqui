@@ -55,7 +55,7 @@ jobs:
       - name: Create CloudFront Invalidation
         id: create_invalidation
         run: |
-          invalidation_response=$(aws cloudfront create-invalidation --distribution-id ${{ env.DIST_ID }} --paths "/* | jq -r '.Invalidation.Id'")
+          verificationId=$(aws cloudfront create-invalidation --distribution-id ${{ env.DIST_ID }} --paths "/* | jq -r '.Invalidation.Id'")
           echo "verificationId=$verificationId" >> $GITHUB_OUTPUT
 
       - name: Cache Invalidation Verification
