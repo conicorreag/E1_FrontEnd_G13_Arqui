@@ -34,7 +34,6 @@ const handleToken = () => {
         };
     }
 
-    console.log("token1", token1);
     axios
         .post(`${process.env.REACT_APP_BACKEND_URL}/transactions_webpay`, data)
         .then((response) => {
