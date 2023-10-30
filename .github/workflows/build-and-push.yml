@@ -6,8 +6,8 @@ on:
       - main
 
 permissions:
-  id-token: write # This is required for requesting the JWT
-  contents: read  # This is required for actions/checkout
+  id-token: write
+  contents: read
 
 jobs:
   S3PackageUpload:
@@ -24,7 +24,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18' 
+          node-version: '14'
 
       - name: Install dependencies
         run: npm install
@@ -45,7 +45,7 @@ jobs:
             "audience": "https://dev-e36pqbtayc7ny77l.us.auth0.com/api/v2/"
           }
           EOL
-       
+
       - name: Build Frontend with Yarn
         run: npm run build --no-verify
 
@@ -55,8 +55,11 @@ jobs:
       - name: Create CloudFront Invalidation
         id: create_invalidation
         run: aws cloudfront create-invalidation --distribution-id ${{ env.DIST_ID }} --paths "/*"
+      
+      - name: Get Invalidation ID
+        run: |
+          invalidation_id=$(echo '${{ steps.create_invalidation.outputs.id }}')
+          echo "Invalidation ID: $invalidation_id"
 
       - name: Cache Invalidation Verification
-        run: 
-          invalidation_id=$(aws cloudfront create-invalidation --distribution-id ${{ env.DIST_ID }} --paths "/*" --query 'Invalidation.Id' --output text)|
-          aws cloudfront get-invalidation --id $invalidation_id --distribution-id ${{ env.DIST_ID }}
+        run: aws cloudfront get-invalidation --id $invalidation_id --distribution-id ${{ env.DIST_ID }}
