@@ -46,7 +46,7 @@ jobs:
           }
           EOL
 
-      - name: Build Frontend with Yarn
+      - name: Build Frontend with npm
         run: npm run build
 
       - name: Deploy changes to S3
@@ -54,15 +54,10 @@ jobs:
 
       - name: Create CloudFront Invalidation
         id: create_invalidation
-        run: aws cloudfront create-invalidation --distribution-id ${{ env.DIST_ID }} --paths "/*"
-      
-      - name: Create CloudFront Invalidation
-        run: aws cloudfront create-invalidation --distribution-id ${{ env.DIST_ID }} --paths "/*"
-    
-      - name: Get Invalidation ID
         run: |
-          invalidation_id=$(echo '${{ steps.create_invalidation.outputs.id }}')
-          echo "Invalidation ID: $invalidation_id"
+          invalidation_response=$(aws cloudfront create-invalidation --distribution-id ${{ env.DIST_ID }} --paths "/*")
+          echo "::set-env name=INVALIDATION_ID::$(echo $invalidation_response | jq -r '.Invalidation.Id')"
 
       - name: Cache Invalidation Verification
-        run: aws cloudfront get-invalidation --id $invalidation_id --distribution-id ${{ env.DIST_ID }} 
+        run: aws cloudfront get-invalidation --id ${{ env.INVALIDATION_ID }} --distribution-id ${{ env.DIST_ID }}
+         
