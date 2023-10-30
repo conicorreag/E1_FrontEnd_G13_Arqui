@@ -54,7 +54,7 @@ jobs:
 
       - name: Create CloudFront Invalidation
         id: create_invalidation
-        run: aws cloudfront create-invalidation --distribution-id ${{ env.DIST_ID }} --paths "/*"
+        run: invalidation_id=$(aws cloudfront create-invalidation --distribution-id ${{ env.DIST_ID }} --paths "/*" --query 'Invalidation.Id' --output text)
 
       - name: Cache Invalidation Verification
         run: aws cloudfront get-invalidation --id ${{ steps.create_invalidation.outputs.id }} --distribution-id ${{ env.DIST_ID }}
