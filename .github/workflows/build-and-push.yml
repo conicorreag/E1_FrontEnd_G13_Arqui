@@ -15,7 +15,13 @@ jobs:
     env:
       BUCKET_NAME: e1g13frontend
       REGION: us-east-2
-      DIST_ID: E73LQEDSM3Z4U 
+      DIST_ID: E73LQEDSM3Z4U
+      AUTH_CONFIG_JSON: >
+        {
+          "domain": "dev-e36pqbtayc7ny77l.us.auth0.com",
+          "clientId": "hVIzZHjzYH9yjVhYdEskCuwi2awvxNHg",
+          "audience": "https://dev-e36pqbtayc7ny77l.us.auth0.com/api/v2/"
+        }
 
     steps:
       - name: Checkout code
