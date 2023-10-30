@@ -16,12 +16,6 @@ jobs:
       BUCKET_NAME: e1g13frontend
       REGION: us-east-2
       DIST_ID: E73LQEDSM3Z4U
-      AUTH_CONFIG_JSON: >
-        {
-          "domain": "dev-e36pqbtayc7ny77l.us.auth0.com",
-          "clientId": "hVIzZHjzYH9yjVhYdEskCuwi2awvxNHg",
-          "audience": "https://dev-e36pqbtayc7ny77l.us.auth0.com/api/v2/"
-        }
 
     steps:
       - name: Checkout code
@@ -42,11 +36,15 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.REGION }}
 
-      - name: Copiar auth_config.json desde el secreto
-        run: echo "${{ env.AUTH_CONFIG_JSON }}" > auth_config.json
-      
-      - name: Copiar auth_config.json a la carpeta src
-        run: cp auth_config.json /home/runner/work/E1_FrontEnd_G13_Arqui/E1_FrontEnd_G13_Arqui/src/
+      - name: Crear auth_config.json en el proyecto
+        run: |
+          cat <<EOL > src/auth_config.json
+          {
+            "domain": "dev-e36pqbtayc7ny77l.us.auth0.com",
+            "clientId": "hVIzZHjzYH9yjVhYdEskCuwi2awvxNHg",
+            "audience": "https://dev-e36pqbtayc7ny77l.us.auth0.com/api/v2/"
+          }
+          EOL
        
       - name: Build Frontend with Yarn
         run: npm run build
