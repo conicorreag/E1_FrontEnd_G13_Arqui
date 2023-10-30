@@ -43,7 +43,7 @@ jobs:
           aws-region: ${{ env.REGION }}
 
       - name: Copiar auth_config.json desde el secreto
-        run: echo "${{ secrets.AUTH_CONFIG_JSON }}" > auth_config.json
+        run: echo "${{ env.AUTH_CONFIG_JSON }}" > auth_config.json
       
       - name: Copiar auth_config.json a la carpeta src
         run: cp auth_config.json /home/runner/work/E1_FrontEnd_G13_Arqui/E1_FrontEnd_G13_Arqui/src/
