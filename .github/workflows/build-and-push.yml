@@ -47,7 +47,7 @@ jobs:
           EOL
        
       - name: Build Frontend with Yarn
-        run: npm run build
+        run: npm run build --no-verify
 
       - name: Deploy changes to S3
         run: aws s3 sync dist/ s3://${{ env.BUCKET_NAME }} --delete
