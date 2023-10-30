@@ -24,7 +24,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: '18'
 
       - name: Install dependencies
         run: npm install
@@ -47,7 +47,7 @@ jobs:
           EOL
 
       - name: Build Frontend with Yarn
-        run: npm run build --no-verify
+        run: npm run build
 
       - name: Deploy changes to S3
         run: aws s3 sync build/ s3://${{ env.BUCKET_NAME }} --delete
@@ -56,10 +56,14 @@ jobs:
         id: create_invalidation
         run: aws cloudfront create-invalidation --distribution-id ${{ env.DIST_ID }} --paths "/*"
       
+      - name: Create CloudFront Invalidation
+        id: create_invalidation
+        run: aws cloudfront create-invalidation --distribution-id ${{ env.DIST_ID }} --paths "/*"
+    
       - name: Get Invalidation ID
         run: |
           invalidation_id=$(echo '${{ steps.create_invalidation.outputs.id }}')
           echo "Invalidation ID: $invalidation_id"
 
       - name: Cache Invalidation Verification
-        run: aws cloudfront get-invalidation --id $invalidation_id --distribution-id ${{ env.DIST_ID }}
+        run: aws cloudfront get-invalidation --id $invalidation_id --distribution-id ${{ env.DIST_ID }} 
