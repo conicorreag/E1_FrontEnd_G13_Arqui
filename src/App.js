@@ -18,6 +18,8 @@ import Predicciones from "./views/Predicciones";
 import Subasta from "./views/Subasta";
 import Ofertas from "./views/Ofertas";
 import SubastaDetalle from "./views/SubastaDetalle";
+import SubastaRespuestas from "./views/SubastaRespuestas";
+import MisSubastas from "./views/MisSubastas";
 import { useAuth0 } from "@auth0/auth0-react";
 import history from "./utils/history";
 
@@ -56,12 +58,15 @@ const App = () => {
             <Route path="/compraDetalle" component={CompraDetalle} />
             <Route path="/subasta" component={Subasta} />
             <Route path="/ofertas" component={Ofertas} />
-            <Route path="/empresasuser" component={EmpresasUser} />
+            <Route path="/empresas-user" component={EmpresasUser} />
+            <Route path="/mis-subastas" component={MisSubastas} />
+
           </Switch>
 
           <Switch>
             <Route path="/empresa-detalle/:symbol" component={EmpresaDetalle} />
             <Route path="/subasta-detalle/:symbol" component={SubastaDetalle} />
+            <Route path="/subasta-respuestas/:id" component={SubastaRespuestas} />
           </Switch>
 
         </Container>

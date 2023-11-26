@@ -76,7 +76,7 @@ const NavBar = () => {
                 <NavItem>
                   <NavLink
                     tag={RouterNavLink}
-                    to="/empresas"  // Ajusta este enlace a la ruta correcta para la billetera
+                    to="/empresas"  
                     exact
                     activeClassName="router-link-exact-active"
                   >
@@ -89,7 +89,7 @@ const NavBar = () => {
                 <NavItem>
                   <NavLink
                     tag={RouterNavLink}
-                    to="/subasta"  // Ajusta este enlace a la ruta correcta para la billetera
+                    to="/subasta"  
                     exact
                     activeClassName="router-link-exact-active"
                   >
@@ -102,8 +102,7 @@ const NavBar = () => {
                 <NavItem>
                   <NavLink
                     tag={RouterNavLink}
-                    to="/ofertas"  // Ajusta este enlace a la ruta correcta para la billetera
-                    exact
+                    to="/ofertas"  
                     activeClassName="router-link-exact-active"
                   >
                     Ofertas Grupos
@@ -116,7 +115,7 @@ const NavBar = () => {
                 <NavItem>
                   <NavLink
                     tag={RouterNavLink}
-                    to="/empresasuser"  // Ajusta este enlace a la ruta correcta para la billetera
+                    to="/empresas-user"  
                     exact
                     activeClassName="router-link-exact-active"
                   >
@@ -129,7 +128,7 @@ const NavBar = () => {
                 <NavItem>
                   <NavLink
                     tag={RouterNavLink}
-                    to="/compras"  // Ajusta este enlace a la ruta correcta para la billetera
+                    to="/compras"  
                     exact
                     activeClassName="router-link-exact-active"
                   >
@@ -142,7 +141,7 @@ const NavBar = () => {
                 <NavItem>
                   <NavLink
                     tag={RouterNavLink}
-                    to="/predicciones"  // Ajusta este enlace a la ruta correcta para la billetera
+                    to="/predicciones"  
                     exact
                     activeClassName="router-link-exact-active"
                   >
@@ -155,7 +154,7 @@ const NavBar = () => {
                 <NavItem>
                   <NavLink
                     tag={RouterNavLink}
-                    to="/empresasuser"  // Ajusta este enlace a la ruta correcta para la billetera
+                    to="/mis-subastas"  
                     exact
                     activeClassName="router-link-exact-active"
                   >

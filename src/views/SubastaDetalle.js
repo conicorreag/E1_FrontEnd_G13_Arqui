@@ -11,12 +11,12 @@ const SubastaDetalleComponent = () => {
   const { user } = useAuth0();
   const history = useHistory();
 
-  const handleCompra = async () => {
+  const handleSubasta = async () => {
     const datetime = new Date().toISOString(); // Fecha y hora de compra
 
     try {
       // Realiza la solicitud POST al backend para enviar la información de la compra
-      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/transactions`, {
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/subastas`, {
         user_sub: user.sub,
         datetime: datetime,
         symbol: symbol,
@@ -26,7 +26,7 @@ const SubastaDetalleComponent = () => {
       // Muestra un pop-up con el mensaje de éxito
       Swal.fire({
         title: "Éxito",
-        text: "Compra realizada correctamente.",
+        text: "Subasta solicitada correctamente.",
         icon: "success",
         confirmButtonText: "OK",
       });
@@ -34,11 +34,11 @@ const SubastaDetalleComponent = () => {
       // Redirige a la página principal o a donde sea necesario
       history.push("/");
     } catch (error) {
-      console.error("Error al enviar la solicitud de compra:", error);
+      console.error("Error al enviar la solicitud de subasta:", error);
       // Muestra un pop-up con el mensaje de error
       Swal.fire({
         title: "Error",
-        text: "Hubo un error al enviar la solicitud de compra.",
+        text: "Hubo un error al enviar la solicitud de subasta.",
         icon: "error",
         confirmButtonText: "OK",
       });
@@ -54,7 +54,7 @@ const SubastaDetalleComponent = () => {
       <Form
         onSubmit={(e) => {
           e.preventDefault();
-          handleCompra();
+          handleSubasta();
         }}
       >
         <FormGroup>
