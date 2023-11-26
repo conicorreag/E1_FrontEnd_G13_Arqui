@@ -13,11 +13,6 @@ provider "aws" {
   region = "us-east-2"  
 }
 
-resource "aws_acm_certificate" "ssl_certificate" {
-  domain_name = "belukoatica.me" # Cambia esto al nombre de tu dominio
-  validation_method = "DNS"
-}
-
 resource "aws_cloudfront_distribution" "CloudFrontG13" {
   origin {
     domain_name = "iaac-bucket.s3.amazonaws.com"  
@@ -25,7 +20,7 @@ resource "aws_cloudfront_distribution" "CloudFrontG13" {
   }
 
   viewer_certificate {
-    acm_certificate_arn      = aws_acm_certificate.ssl_certificate.arn
+    acm_certificate_arn      = "arn:aws:acm:us-east-1:137574625738:certificate/d0f4b821-499c-46be-bed5-550e48b80405"
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.2_2018"
   }
