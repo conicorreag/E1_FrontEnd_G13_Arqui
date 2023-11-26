@@ -11,9 +11,13 @@ import ExternalApi from "./views/ExternalApi";
 import Billetera from "./views/Billetera";
 import EmpresaDetalle from "./views/EmpresaDetalle";
 import Empresas from "./views/Empresas";
+import EmpresasUser from "./views/EmpresasUser";
 import CompraDetalle from "./views/CompraDetalle";
 import Compras from "./views/Compras";
 import Predicciones from "./views/Predicciones";
+import Subasta from "./views/Subasta";
+import Ofertas from "./views/Ofertas";
+import SubastaDetalle from "./views/SubastaDetalle";
 import { useAuth0 } from "@auth0/auth0-react";
 import history from "./utils/history";
 
@@ -50,16 +54,16 @@ const App = () => {
             <Route path="/compras" component={Compras} />
             <Route path="/predicciones" component={Predicciones} />
             <Route path="/compraDetalle" component={CompraDetalle} />
-            
+            <Route path="/subasta" component={Subasta} />
+            <Route path="/ofertas" component={Ofertas} />
+            <Route path="/empresasuser" component={EmpresasUser} />
           </Switch>
 
           <Switch>
-            {/* La ruta para el detalle tiene el symbol */}
             <Route path="/empresa-detalle/:symbol" component={EmpresaDetalle} />
-            {/* La ruta para la compra tiene la cantidad, y el symbol */}
-            
-
+            <Route path="/subasta-detalle/:symbol" component={SubastaDetalle} />
           </Switch>
+
         </Container>
 
         <Footer />

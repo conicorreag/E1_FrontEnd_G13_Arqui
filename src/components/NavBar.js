@@ -37,6 +37,9 @@ const NavBar = () => {
         }
     });
 
+  const roles = user && user['https://g13arquitectura.me//roles'];
+  console.log(user);
+
   return (
     <div className="nav-container">
       <Navbar color="light" light expand="md" container={false}>
@@ -55,19 +58,7 @@ const NavBar = () => {
                   Home
                 </NavLink>
               </NavItem>
-              {/* {isAuthenticated && (
-                <NavItem>
-                  <NavLink
-                    tag={RouterNavLink}
-                    to="/external-api"
-                    exact
-                    activeClassName="router-link-exact-active"
-                  >
-                    External API
-                  </NavLink>
-                </NavItem>
-              
-              )} */}
+
               {isAuthenticated && (
                 <NavItem>
                   <NavLink
@@ -81,7 +72,7 @@ const NavBar = () => {
                 </NavItem>
               )}
 
-              {isAuthenticated && (
+              {isAuthenticated && roles && roles.includes('admin') && (
                 <NavItem>
                   <NavLink
                     tag={RouterNavLink}
@@ -90,6 +81,46 @@ const NavBar = () => {
                     activeClassName="router-link-exact-active"
                   >
                     Empresas
+                  </NavLink>
+                </NavItem>
+              )}
+
+              {isAuthenticated && roles && roles.includes('admin') && (
+                <NavItem>
+                  <NavLink
+                    tag={RouterNavLink}
+                    to="/subasta"  // Ajusta este enlace a la ruta correcta para la billetera
+                    exact
+                    activeClassName="router-link-exact-active"
+                  >
+                    Acciones G13
+                  </NavLink>
+                </NavItem>
+              )}
+
+              {isAuthenticated && roles && roles.includes('admin') && (
+                <NavItem>
+                  <NavLink
+                    tag={RouterNavLink}
+                    to="/ofertas"  // Ajusta este enlace a la ruta correcta para la billetera
+                    exact
+                    activeClassName="router-link-exact-active"
+                  >
+                    Ofertas Grupos
+                  </NavLink>
+                </NavItem>
+              )}
+
+              
+              {isAuthenticated && roles && roles.includes('user') && (
+                <NavItem>
+                  <NavLink
+                    tag={RouterNavLink}
+                    to="/empresasuser"  // Ajusta este enlace a la ruta correcta para la billetera
+                    exact
+                    activeClassName="router-link-exact-active"
+                  >
+                    Acciones G13
                   </NavLink>
                 </NavItem>
               )}
@@ -116,6 +147,19 @@ const NavBar = () => {
                     activeClassName="router-link-exact-active"
                   >
                     Mis Predicciones
+                  </NavLink>
+                </NavItem>
+              )}
+
+              {isAuthenticated && roles && roles.includes('admin') && (
+                <NavItem>
+                  <NavLink
+                    tag={RouterNavLink}
+                    to="/empresasuser"  // Ajusta este enlace a la ruta correcta para la billetera
+                    exact
+                    activeClassName="router-link-exact-active"
+                  >
+                    Mis Subastas
                   </NavLink>
                 </NavItem>
               )}

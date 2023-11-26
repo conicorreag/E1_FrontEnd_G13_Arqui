@@ -117,13 +117,6 @@ const EmpresaDetalleComponent = () => {
       console.log("este",sumbitReady)
       return data
 
-      // Muestra un pop-up con el mensaje de éxito
-      // Swal.fire({
-      //   title: "Solicitud enviada",
-      //   text: "La solicitud de compra ha sido enviada correctamente.",
-      //   icon: "success",
-      //   confirmButtonText: "OK",
-      // });
     } catch (error) {
       console.error("Error al enviar la solicitud de compra:", error);
       // Muestra un pop-up con el mensaje de error

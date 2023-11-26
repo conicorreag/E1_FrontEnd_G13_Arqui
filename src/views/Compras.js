@@ -24,6 +24,14 @@ const ComprasComponent = () => {
       });
   }, []);
 
+  if (!(user && user['https://g13arquitectura.me//roles'] && user['https://g13arquitectura.me//roles'].includes('admin'))) {
+    return (
+        <Container style={{ textAlign: 'center', marginTop: '50px' }}>
+        <p style={{ color: 'red', fontSize: '24px' }}>No tienes permisos para ver esta página.</p>
+        </Container>
+    );
+  }
+
   return (
     <Container className="mb-5 mt-3">
       <h2 style={{ color: "#024EAA" }} align="center">Acciones compradas</h2>
