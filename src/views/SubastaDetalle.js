@@ -16,8 +16,7 @@ const SubastaDetalleComponent = () => {
 
     try {
       // Realiza la solicitud POST al backend para enviar la información de la compra
-      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/subastas`, {
-        user_sub: user.sub,
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auctions/send/`, {
         datetime: datetime,
         symbol: symbol,
         quantity: cantidad,

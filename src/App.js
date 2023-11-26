@@ -20,6 +20,7 @@ import Ofertas from "./views/Ofertas";
 import SubastaDetalle from "./views/SubastaDetalle";
 import SubastaRespuestas from "./views/SubastaRespuestas";
 import MisSubastas from "./views/MisSubastas";
+import OfertaDetalleComponent from "./views/OfertaDetalleComponent";
 import { useAuth0 } from "@auth0/auth0-react";
 import history from "./utils/history";
 
@@ -60,6 +61,7 @@ const App = () => {
             <Route path="/ofertas" component={Ofertas} />
             <Route path="/empresas-user" component={EmpresasUser} />
             <Route path="/mis-subastas" component={MisSubastas} />
+            
 
           </Switch>
 
@@ -67,6 +69,7 @@ const App = () => {
             <Route path="/empresa-detalle/:symbol" component={EmpresaDetalle} />
             <Route path="/subasta-detalle/:symbol" component={SubastaDetalle} />
             <Route path="/subasta-respuestas/:id" component={SubastaRespuestas} />
+            <Route path="/oferta-detalle/:symbol/:auctionId/:stockId/:quantity" component={OfertaDetalleComponent} />
           </Switch>
 
         </Container>

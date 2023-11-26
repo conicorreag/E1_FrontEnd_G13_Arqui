@@ -9,7 +9,7 @@ const SubastaComponent = () => {
 
   const history = useHistory();
   const { user } = useAuth0();
-  const [empresas_disponibles, setEmpresas_disponibles] = useState([]);
+  const [empresas, setEmpresas] = useState([]);
   const [error, setError] = useState(null);
   const [subastaPressed, setSubastaPressed] = useState(false);
   const [actionhistory, setActionhistory] = useState([]);
@@ -18,9 +18,9 @@ const SubastaComponent = () => {
 
     //HACER GET A LAS ACCIONES QUE YO HE COMPRADO Y MIS USUARIOS NO, OSEA ESTÁN DISPONIBLES.
     
-     Axios.get(`${process.env.REACT_APP_BACKEND_URL}/stocks`)
+     Axios.get(`${process.env.REACT_APP_BACKEND_URL}/stocks/`)
        .then((response) => {
-         setEmpresas_disponibles(response.data);
+         setEmpresas(response.data);
          console.log('DATOS DE LAS EMPRESAS DISPONIBLES DE MI GRUPO:', response.data);
        })
        .catch((error) => {
@@ -58,7 +58,7 @@ const SubastaComponent = () => {
           </tr>
         </thead>
         <tbody>
-          {empresas_disponibles.map((empresa, index) => (
+          {empresas.map((empresa, index) => (
             <tr key={index}>
               <td>{empresa.shortName}</td>
               <td>{empresa.price}</td>
@@ -67,7 +67,7 @@ const SubastaComponent = () => {
               <td>
                   <Button
                     color="primary"
-                    onClick={() => handleSubastaDetailClick(empresa.symbol)}
+                    onClick={() => handleSubastaDetailClick(empresa.shortName)}
                   >
                     Subastar
                   </Button> 

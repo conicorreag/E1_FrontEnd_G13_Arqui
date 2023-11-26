@@ -11,8 +11,10 @@ const SubastaRespuestasComponent = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+
+    data= {"auction_id": subasta_id}
     // Realiza una solicitud GET al backend para obtener las transacciones
-    axios.get(`${process.env.REACT_APP_BACKEND_URL}/subasta-respuestas/${subasta_id}`)
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/proposals_available`, data)
       .then(response => {
         setRespuestas(response.data);
         //TIENE QUE LLEGARME UN ID DE SUBASTA
@@ -35,18 +37,19 @@ const SubastaRespuestasComponent = () => {
   const handleIntercambiar = async (respuestaId) => {
     try {
       // Realiza la solicitud POST al backend para realizar el intercambio
-      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/RUTA PARA MANDAR EL INTERCAMBIO HECHO`, {
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/proposal/answer`, {
         respuestaId: respuestaId,
-        subastaId: subasta_id,
       });
 
       // Actualiza las respuestas después de realizar el intercambio
       const updatedRespuestas = respuestas.filter(respuesta => respuesta.id !== respuestaId);
       setRespuestas(updatedRespuestas);
 
+      //SI SE INTERCAMBIÓ UNA, SE ELIMINAN TODAS LAS RESPUESTAS
+
       // Puedes mostrar una notificación de éxito si es necesario
       Swal.fire({
-        icon: 'success',
+        icon: 'success', 
         title: 'Éxito',
         text: 'El intercambio se realizó correctamente.',
       });    

@@ -17,9 +17,9 @@ const OfertasComponent = () => {
 
     //OFERTAS DE LOS GRUPOS QUE QUIEREN SUBASTAR
     
-     Axios.get(`${process.env.REACT_APP_BACKEND_URL}/ofertas_grupos`)
+     Axios.get(`${process.env.REACT_APP_BACKEND_URL}/auctions_available`)
        .then((response) => {
-         setEmpresas(response.data);
+         setEmpresas_ofrecidas(response.data);
          console.log('DATOS DE LAS EMPRESAS:', response.data);
        })
        .catch((error) => {
@@ -29,11 +29,9 @@ const OfertasComponent = () => {
    }, []);
 
 
-  const handleEmpresaDetailClick = (symbol) => {
-    console.log("--------holaaaaaaaaa------------------")
-    console.log('---------Símbolo:-----------\n', symbol);
-    console.log(`/empresa-detalle/${symbol}`);
-    history.push(`/empresa-detalle/${symbol}`);
+   const handleOfertaDetailClick = (symbol, auctionId, stockId, quantity) => {
+    const ruta = `/oferta-detalle/${symbol}/${auctionId}/${stockId}/${quantity}`;
+    history.push(ruta);
   };
 
   if (!(user && user['https://g13arquitectura.me//roles'] && user['https://g13arquitectura.me//roles'].includes('admin'))) {
@@ -66,9 +64,9 @@ const OfertasComponent = () => {
               <td>
                 <Button
                   color="primary"
-                  onClick={() => handleEmpresaDetailClick(empresa.symbol)}
+                  onClick={() => handleOfertaDetailClick(empresa.symbol)}
                 >
-                  Ver detalles
+                  Hacer Oferta
                 </Button>
               </td>
             </tr>
