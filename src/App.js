@@ -69,7 +69,7 @@ const App = () => {
             <Route path="/empresa-detalle/:symbol" component={EmpresaDetalle} />
             <Route path="/subasta-detalle/:symbol" component={SubastaDetalle} />
             <Route path="/subasta-respuestas/:id" component={SubastaRespuestas} />
-            <Route path="/oferta-detalle/:symbol/:auctionId/:stockId/:quantity" component={OfertaDetalleComponent} />
+            <Route path="/oferta-detalle/:auctionId" component={OfertaDetalleComponent} />
           </Switch>
 
         </Container>

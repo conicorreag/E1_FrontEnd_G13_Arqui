@@ -29,8 +29,8 @@ const OfertasComponent = () => {
    }, []);
 
 
-   const handleOfertaDetailClick = (symbol, auctionId, stockId, quantity) => {
-    const ruta = `/oferta-detalle/${symbol}/${auctionId}/${stockId}/${quantity}`;
+   const handleOfertaDetailClick = (auctionId) => {
+    const ruta = `/oferta-detalle/${auctionId}`;
     history.push(ruta);
   };
 
@@ -64,7 +64,7 @@ const OfertasComponent = () => {
               <td>
                 <Button
                   color="primary"
-                  onClick={() => handleOfertaDetailClick(empresa.symbol)}
+                  onClick={() => handleOfertaDetailClick(empresa.auction_id)}
                 >
                   Hacer Oferta
                 </Button>

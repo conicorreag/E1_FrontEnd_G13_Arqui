@@ -29,8 +29,8 @@ const SubastaComponent = () => {
        });
    }, []);
 
-    const handleSubastaDetailClick = (symbol) => {
-        history.push(`/subasta-detalle/${symbol}`);
+    const handleSubastaDetailClick = (symbol, max_quantity) => {
+        history.push(`/subasta-detalle/${symbol}/${max_quantity}`);
     };
 
 
@@ -67,7 +67,7 @@ const SubastaComponent = () => {
               <td>
                   <Button
                     color="primary"
-                    onClick={() => handleSubastaDetailClick(empresa.shortName)}
+                    onClick={() => handleSubastaDetailClick(empresa.shortName, empresa.quantity)}
                   >
                     Subastar
                   </Button> 

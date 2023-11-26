@@ -1,21 +1,35 @@
+// Importa tus librerías y componentes necesarios
 import React, { useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { Button, Container, Form, FormGroup, Label, Input } from "reactstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
+import Loading from "../components/Loading"; // Asegúrate de importar Loading si no está importado
 
 const SubastaDetalleComponent = () => {
-  const { symbol } = useParams();
+  const { symbol, max_quantity } = useParams();
   const [cantidad, setCantidad] = useState("");
   const { user } = useAuth0();
   const history = useHistory();
 
   const handleSubasta = async () => {
-    const datetime = new Date().toISOString(); // Fecha y hora de compra
+    const datetime = new Date().toISOString(); // Fecha y hora de la subasta
 
     try {
-      // Realiza la solicitud POST al backend para enviar la información de la compra
+      // Validación: Asegúrate de que la cantidad no sea mayor que max_quantity
+      if (parseInt(cantidad) > parseInt(max_quantity)) {
+        // Muestra un pop-up con el mensaje de error
+        Swal.fire({
+          title: "Error",
+          text: `La cantidad a subastar no puede ser mayor que ${max_quantity}.`,
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+        return; // Detén la ejecución de la función si hay un error
+      }
+
+      // Realiza la solicitud POST al backend para enviar la información de la subasta
       await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auctions/send/`, {
         datetime: datetime,
         symbol: symbol,
@@ -57,11 +71,11 @@ const SubastaDetalleComponent = () => {
         }}
       >
         <FormGroup>
-          <Label for="cantidad">Cantidad a subastar</Label>
+          <Label for="cantidad">Cantidad a subastar (hasta {max_quantity})</Label>
           <Input
             type="number"
             id="cantidad"
-            placeholder="Ingrese la cantidad"
+            placeholder={`Ingrese la cantidad (hasta ${max_quantity})`}
             value={cantidad}
             onChange={(e) => setCantidad(e.target.value)}
           />
@@ -70,8 +84,8 @@ const SubastaDetalleComponent = () => {
         <Button
           type="submit"
           style={{
-            display: "block", // Hace que el botón ocupe todo el ancho disponible
-            margin: "20px auto", // Agrega espaciado arriba y abajo y lo centra horizontalmente
+            display: "block",
+            margin: "20px auto",
           }}
           color="success"
           size="lg"
