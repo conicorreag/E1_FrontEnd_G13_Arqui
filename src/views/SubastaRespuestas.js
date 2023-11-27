@@ -42,7 +42,7 @@ const SubastaRespuestasComponent = () => {
   const handleIntercambiar = async (respuestaId) => {
     try {
       // Realiza la solicitud POST al backend para realizar el intercambio
-      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/proposals/answer`, {
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/proposals/answer/`, {
         "proposal_id": respuestaId
       });
 
