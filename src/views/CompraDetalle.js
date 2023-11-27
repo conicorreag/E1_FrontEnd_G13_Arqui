@@ -4,6 +4,7 @@ import { Button, Container, Table, Form, FormGroup, Label, Input } from "reactst
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
+import Loading from "../components/Loading";
 
 const CompraDetalleComponent = () => {
 const { user } = useAuth0();
