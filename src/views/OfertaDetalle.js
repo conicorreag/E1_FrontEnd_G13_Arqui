@@ -7,7 +7,7 @@ import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import Loading from "../components/Loading"; // Asegúrate de importar Loading si no está importado
 
 const OfertaDetalleComponent = () => {
-  const { symbol, auctionId, stockId, quantity } = useParams();
+  const {auctionId} = useParams();
   const [accionesDisponibles, setAccionesDisponibles] = useState([]);
   const [cantidadAcciones, setCantidadAcciones] = useState(0);
   const [selectedSymbol, setSelectedSymbol] = useState('');
@@ -15,9 +15,14 @@ const OfertaDetalleComponent = () => {
 
   const handleOferta = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/stocks_available`);
-      const accionesDisponibles = response.data;
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/stocks_available/`);
+      const accionesDisponibles = Object.keys(response.data).map((symbol) => ({
+        symbol,
+        ...response.data[symbol],
+      }));
       setAccionesDisponibles(accionesDisponibles);
+
+      console.log('Acciones disponibles:', accionesDisponibles);
       // Aquí puedes almacenar las acciones disponibles en el estado o realizar cualquier otra lógica que necesites.
     } catch (error) {
       console.error('Error al obtener las acciones disponibles:', error);
@@ -33,6 +38,7 @@ const OfertaDetalleComponent = () => {
     try {
       // Validación: Asegúrate de que la cantidad de acciones a ofrecer no sea mayor que la cantidad disponible
       const accionesDisponiblesParaElSimbolo = accionesDisponibles.find(accion => accion.symbol === selectedSymbol);
+      console.log('Acciones disponibles para el símbolo:', accionesDisponiblesParaElSimbolo);
       if (parseInt(cantidadAcciones) > parseInt(accionesDisponiblesParaElSimbolo.quantity)) {
         // Muestra un pop-up con el mensaje de error
         Swal.fire({
@@ -45,10 +51,10 @@ const OfertaDetalleComponent = () => {
       }
 
       // Realizar la solicitud POST al backend con cantidadAcciones, selectedSymbol y auction_id.
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/proposals/send`, {
-        cantidadAcciones,
-        selectedSymbol,
-        auction_id: auctionId, // Asegúrate de tener el valor correcto del auction_id.
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/proposals/send/`, {
+        "quantity": cantidadAcciones,
+        "stock_id": selectedSymbol,
+        "auction_id": auctionId, // Asegúrate de tener el valor correcto del auction_id.
       });
 
       // Manejo de éxito

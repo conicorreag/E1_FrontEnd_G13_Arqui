@@ -15,11 +15,16 @@ const EmpresasUserComponent = () => {
     
     //GET PARA OBTENER LAS EMPRESAS DISPONIBLES
 
-     Axios.get(`${process.env.REACT_APP_BACKEND_URL}/stocks_disponibles_G13`)
+     Axios.get(`${process.env.REACT_APP_BACKEND_URL}/stocks_available/`)
        .then((response) => {
-         setEmpresas(response.data);
+        const empresasArray = Object.keys(response.data).map((symbol) => ({
+          symbol,
+          ...response.data[symbol],
+        }));
+         setEmpresas(empresasArray);
          console.log('DATOS DE LAS EMPRESAS PARA EL USER:', response.data);
        })
+
        .catch((error) => {
          console.error('Error al obtener las empresas:', error);
          setError(error);

@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Container, Table } from "reactstrap";
+import { Container, Table, Button } from "reactstrap";
 import Loading from "../components/Loading";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import axios from "axios";
+import { useParams, useHistory } from "react-router-dom";
+import Swal from "sweetalert2";
+
 
 const SubastaRespuestasComponent = () => {
   const { user } = useAuth0();
@@ -11,10 +14,12 @@ const SubastaRespuestasComponent = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let data;
+    data = {"auction_id": subasta_id}
 
-    data= {"auction_id": subasta_id}
+    console.log("data", data);
     // Realiza una solicitud GET al backend para obtener las transacciones
-    axios.post(`${process.env.REACT_APP_BACKEND_URL}/proposals_available`, data)
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/proposals_available/`, data)
       .then(response => {
         setRespuestas(response.data);
         //TIENE QUE LLEGARME UN ID DE SUBASTA
@@ -37,8 +42,8 @@ const SubastaRespuestasComponent = () => {
   const handleIntercambiar = async (respuestaId) => {
     try {
       // Realiza la solicitud POST al backend para realizar el intercambio
-      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/proposal/answer`, {
-        respuestaId: respuestaId,
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/proposals/answer`, {
+        "proposal_id": respuestaId
       });
 
       // Actualiza las respuestas después de realizar el intercambio
@@ -76,7 +81,6 @@ const SubastaRespuestasComponent = () => {
         <Table striped bordered>
           <thead>
             <tr>
-              <th>Fecha y Hora</th>
               <th>Cantidad</th>
               <th>Símbolo</th>
               <th>Accion</th>
@@ -85,12 +89,11 @@ const SubastaRespuestasComponent = () => {
           <tbody>
             {respuestas.map((respuesta, index) => (
               <tr key={index}>
-                <td>{respuesta.datetime}</td>
                 <td>{respuesta.quantity}</td>
-                <td>{respuesta.symbol}</td>
+                <td>{respuesta.stock_id}</td>
                 <td>
-                    <Button onClick={() => handleIntercambiar(respuesta.id)} color="success">
-                        Intercambiar 
+                    <Button onClick={() => handleIntercambiar(respuesta.proposal_id)} color="success">
+                      Intercambiar 
                     </Button>
                 </td>
               </tr>

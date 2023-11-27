@@ -13,23 +13,31 @@ const SubastaComponent = () => {
   const [error, setError] = useState(null);
   const [subastaPressed, setSubastaPressed] = useState(false);
   const [actionhistory, setActionhistory] = useState([]);
+  const [symbol, setSymbol] = useState('');
 
    useEffect(() => {
 
     //HACER GET A LAS ACCIONES QUE YO HE COMPRADO Y MIS USUARIOS NO, OSEA ESTÁN DISPONIBLES.
     
-     Axios.get(`${process.env.REACT_APP_BACKEND_URL}/stocks/`)
-       .then((response) => {
-         setEmpresas(response.data);
-         console.log('DATOS DE LAS EMPRESAS DISPONIBLES DE MI GRUPO:', response.data);
-       })
-       .catch((error) => {
-         console.error('Error al obtener las empresas:', error);
-         setError(error);
-       });
+     Axios.get(`${process.env.REACT_APP_BACKEND_URL}/stocks_available/`)
+     .then((response) => {
+       const empresasArray = Object.keys(response.data).map((symbol) => ({
+         symbol,
+         ...response.data[symbol],
+       }));
+ 
+       setEmpresas(empresasArray);
+       console.log('DATOS DE LAS EMPRESAS DISPONIBLES DE MI GRUPO:', empresasArray);
+     })
+     .catch((error) => {
+       console.error('Error al obtener las empresas:', error);
+       setError(error);
+     });
+
    }, []);
 
     const handleSubastaDetailClick = (symbol, max_quantity) => {
+        console.log('DATOS DE LA EMPRESA SELECCIONADA:', symbol, max_quantity);
         history.push(`/subasta-detalle/${symbol}/${max_quantity}`);
     };
 
@@ -67,7 +75,7 @@ const SubastaComponent = () => {
               <td>
                   <Button
                     color="primary"
-                    onClick={() => handleSubastaDetailClick(empresa.shortName, empresa.quantity)}
+                    onClick={() => handleSubastaDetailClick(empresa.symbol, empresa.quantity)}
                   >
                     Subastar
                   </Button> 

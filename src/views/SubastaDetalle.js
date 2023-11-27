@@ -8,10 +8,12 @@ import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import Loading from "../components/Loading"; // Asegúrate de importar Loading si no está importado
 
 const SubastaDetalleComponent = () => {
-  const { symbol, max_quantity } = useParams();
+  const {symbol, max_quantity} = useParams();
   const [cantidad, setCantidad] = useState("");
   const { user } = useAuth0();
   const history = useHistory();
+  console.log("symbol", symbol);
+  console.log("max_quantity", max_quantity);
 
   const handleSubasta = async () => {
     const datetime = new Date().toISOString(); // Fecha y hora de la subasta
@@ -31,7 +33,6 @@ const SubastaDetalleComponent = () => {
 
       // Realiza la solicitud POST al backend para enviar la información de la subasta
       await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auctions/send/`, {
-        datetime: datetime,
         symbol: symbol,
         quantity: cantidad,
       });

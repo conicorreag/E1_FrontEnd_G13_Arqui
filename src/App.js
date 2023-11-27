@@ -20,7 +20,7 @@ import Ofertas from "./views/Ofertas";
 import SubastaDetalle from "./views/SubastaDetalle";
 import SubastaRespuestas from "./views/SubastaRespuestas";
 import MisSubastas from "./views/MisSubastas";
-import OfertaDetalleComponent from "./views/OfertaDetalleComponent";
+import OfertaDetalle from "./views/OfertaDetalle";
 import { useAuth0 } from "@auth0/auth0-react";
 import history from "./utils/history";
 
@@ -67,9 +67,9 @@ const App = () => {
 
           <Switch>
             <Route path="/empresa-detalle/:symbol" component={EmpresaDetalle} />
-            <Route path="/subasta-detalle/:symbol" component={SubastaDetalle} />
-            <Route path="/subasta-respuestas/:id" component={SubastaRespuestas} />
-            <Route path="/oferta-detalle/:auctionId" component={OfertaDetalleComponent} />
+            <Route path="/subasta-detalle/:symbol/:max_quantity" component={SubastaDetalle} />
+            <Route path="/subasta-respuestas/:subasta_id" component={SubastaRespuestas} />
+            <Route path="/oferta-detalle/:auctionId" component={OfertaDetalle} />
           </Switch>
 
         </Container>

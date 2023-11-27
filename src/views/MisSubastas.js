@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Container, Table } from "reactstrap";
+import { Container, Table, Button } from "reactstrap";
 import Loading from "../components/Loading";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const MisSubastasComponent = () => {
   const { user } = useAuth0();
@@ -18,7 +19,7 @@ const MisSubastasComponent = () => {
         setLoading(false);
       })
       .catch(error => {
-        console.error('Error al obtener las transacciones:', error);
+        console.error('Error al obtener las subastas:', error);
         setLoading(false);
       });
   }, []);
@@ -43,7 +44,6 @@ const MisSubastasComponent = () => {
         <Table striped bordered>
           <thead>
             <tr>
-              <th>Fecha y Hora</th>
               <th>Cantidad</th>
               <th>Símbolo</th>
               <th>Respuestas</th>
@@ -52,11 +52,10 @@ const MisSubastasComponent = () => {
           <tbody>
             {subastas.map((subasta, index) => (
               <tr key={index}>
-                <td>{subasta.datetime}</td>
                 <td>{subasta.quantity}</td>
-                <td>{subasta.symbol}</td>
+                <td>{subasta.stock_id}</td>
                 <td>
-                  <Link to={`/subasta-respuestas/${subasta.id}`}>
+                  <Link to={`/subasta-respuestas/${subasta.auction_id}`}>
                     <Button color="primary">Ver Respuestas</Button>
                   </Link>
                 </td>

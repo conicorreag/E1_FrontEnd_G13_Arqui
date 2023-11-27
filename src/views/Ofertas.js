@@ -17,7 +17,7 @@ const OfertasComponent = () => {
 
     //OFERTAS DE LOS GRUPOS QUE QUIEREN SUBASTAR
     
-     Axios.get(`${process.env.REACT_APP_BACKEND_URL}/auctions_available`)
+     Axios.get(`${process.env.REACT_APP_BACKEND_URL}/auctions_available/`)
        .then((response) => {
          setEmpresas_ofrecidas(response.data);
          console.log('DATOS DE LAS EMPRESAS:', response.data);
@@ -51,16 +51,16 @@ const OfertasComponent = () => {
       <Table>
         <thead>
           <tr>
-            <th>Nombre de la Empresa</th>
-            <th>Precio</th>
-            <th>Acciones</th>
+            <th>Símbolo</th>
+            <th>Cantidad</th>
+            <th>Ofrecer</th>
           </tr>
         </thead>
         <tbody>
           {empresas_ofrecidas.map((empresa, index) => (
             <tr key={index}>
-              <td>{empresa.shortName}</td>
-              <td>{empresa.price}</td>
+              <td>{empresa.stock_id}</td>
+              <td>{empresa.quantity}</td>
               <td>
                 <Button
                   color="primary"
