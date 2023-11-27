@@ -84,5 +84,6 @@ return (
 
 // history.push("/compras");
 }
-
-export default CompraDetalleComponent;
+export default withAuthenticationRequired(CompraDetalleComponent, {
+    onRedirecting: () => <Loading />,
+  });
