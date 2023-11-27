@@ -94,9 +94,9 @@ const EmpresaDetalleComponent = () => {
 
       // Configura los encabezados con el token de autenticación
       const tokenBearer = "Bearer " + token;
-
+      let response;
       if (roles.includes('admin')){
-        const response = await axios.post(
+        response = await axios.post(
           `${process.env.REACT_APP_BACKEND_URL}/transactions/admin`,
           {
             user_sub: user.sub,
@@ -113,7 +113,7 @@ const EmpresaDetalleComponent = () => {
       }
 
       else {
-        const response = await axios.post(
+        response = await axios.post(
           `${process.env.REACT_APP_BACKEND_URL}/transactions`,
           {
             user_sub: user.sub,
