@@ -19,7 +19,7 @@ const SubastaComponent = () => {
 
     //HACER GET A LAS ACCIONES QUE YO HE COMPRADO Y MIS USUARIOS NO, OSEA ESTÁN DISPONIBLES.
     
-     Axios.get(`${process.env.REACT_APP_BACKEND_URL}/stocks_available/`)
+     Axios.get(`${process.env.REACT_APP_BACKEND_URL}/stocks_available`)
      .then((response) => {
        const empresasArray = Object.keys(response.data).map((symbol) => ({
          symbol,

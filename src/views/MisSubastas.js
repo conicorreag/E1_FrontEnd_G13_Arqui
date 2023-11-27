@@ -12,7 +12,7 @@ const MisSubastasComponent = () => {
 
   useEffect(() => {
     // Realiza una solicitud GET al backend para obtener las transacciones
-    axios.get(`${process.env.REACT_APP_BACKEND_URL}/auctions/admin/`)
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/auctions/admin`)
       .then(response => {
         setSubastas(response.data);
         //TIENE QUE LLEGARME UN ID DE SUBASTA

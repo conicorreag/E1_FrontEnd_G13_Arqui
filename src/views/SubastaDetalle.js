@@ -32,7 +32,7 @@ const SubastaDetalleComponent = () => {
       }
 
       // Realiza la solicitud POST al backend para enviar la información de la subasta
-      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auctions/send/`, {
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auctions/send`, {
         symbol: symbol,
         quantity: cantidad,
       });

@@ -17,7 +17,7 @@ const OfertasComponent = () => {
 
     //OFERTAS DE LOS GRUPOS QUE QUIEREN SUBASTAR
     
-     Axios.get(`${process.env.REACT_APP_BACKEND_URL}/auctions_available/`)
+     Axios.get(`${process.env.REACT_APP_BACKEND_URL}/auctions_available`)
        .then((response) => {
          setEmpresas_ofrecidas(response.data);
          console.log('DATOS DE LAS EMPRESAS:', response.data);

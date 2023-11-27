@@ -9,6 +9,7 @@ const Home = () => {
     axios.get(`${process.env.REACT_APP_BACKEND_URL}/job_heartbeat`)
       .then(response => {
         setHeartbeatStatus(response.data.status); // Supongo que el estado se encuentra en response.data.status
+        console.log('HOLAAAAAAAAAA');
       })
       .catch(error => {
         console.error('Error al obtener el estado del heartbeat:', error);

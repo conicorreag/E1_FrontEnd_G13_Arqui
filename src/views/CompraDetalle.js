@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 
 const CompraDetalleComponent = () => {
+const { user } = useAuth0();
 const [token, setToken] = useState(null);
 const [requestID, setRequestID] = useState(null);
 // const location = useLocation();
@@ -74,6 +75,12 @@ const handleToken = () => {
 useEffect(() => {
     handleToken();
 }, []);
+
+return (
+    <Link to={"/compras"}>
+        <Button color="primary">Ver mis compras</Button>
+    </Link>
+);
 
 // history.push("/compras");
 }

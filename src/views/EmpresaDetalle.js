@@ -62,6 +62,8 @@ const EmpresaDetalleComponent = () => {
     setPredictionMessage(false);
   };
 
+  const roles = user && user['https://g13arquitectura.me//roles'];
+
   useEffect(() => {
     // Realiza la solicitud GET al backend para obtener el historial de precios para el símbolo
     axios
@@ -84,6 +86,7 @@ const EmpresaDetalleComponent = () => {
     const datetime = new Date().toISOString(); // Fecha y hora de compra
     const quantity = cantidad;
 
+
     try {
       // Obtén el token de acceso de forma silenciosa
       const token = await getAccessTokenSilently();
@@ -92,22 +95,42 @@ const EmpresaDetalleComponent = () => {
       // Configura los encabezados con el token de autenticación
       const tokenBearer = "Bearer " + token;
 
+      if (roles.includes('admin')){
+        const response = await axios.post(
+          `${process.env.REACT_APP_BACKEND_URL}/transactions/admin`,
+          {
+            user_sub: user.sub,
+            datetime: datetime,
+            symbol: symbol,
+            quantity: quantity,
+          },
+          {
+            headers: {
+              Authorization: tokenBearer,
+            }
+          }
+        );
+      }
+
+      else {
+        const response = await axios.post(
+          `${process.env.REACT_APP_BACKEND_URL}/transactions`,
+          {
+            user_sub: user.sub,
+            datetime: datetime,
+            symbol: symbol,
+            quantity: quantity,
+          },
+          {
+            headers: {
+              Authorization: tokenBearer,
+            }
+          }
+        );
+      }
 
       // Realiza la solicitud POST al backend para enviar la información de la compra
-      const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/transactions`,
-        {
-          user_sub: user.sub,
-          datetime: datetime,
-          symbol: symbol,
-          quantity: quantity,
-        },
-        {
-          headers: {
-            Authorization: tokenBearer,
-          }
-        }
-      );
+      
       const data = JSON.parse(response.data)
       setFormActionUrl(data.url);
       setWebpayToken(data.token);

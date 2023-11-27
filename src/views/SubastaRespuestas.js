@@ -19,7 +19,7 @@ const SubastaRespuestasComponent = () => {
 
     console.log("data", data);
     // Realiza una solicitud GET al backend para obtener las transacciones
-    axios.post(`${process.env.REACT_APP_BACKEND_URL}/proposals_available/`, data)
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/proposals_available`, data)
       .then(response => {
         setRespuestas(response.data);
         //TIENE QUE LLEGARME UN ID DE SUBASTA
@@ -42,7 +42,7 @@ const SubastaRespuestasComponent = () => {
   const handleIntercambiar = async (respuestaId) => {
     try {
       // Realiza la solicitud POST al backend para realizar el intercambio
-      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/proposals/answer/`, {
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/proposals/answer`, {
         "proposal_id": respuestaId
       });
 

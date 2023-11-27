@@ -15,7 +15,7 @@ const OfertaDetalleComponent = () => {
 
   const handleOferta = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/stocks_available/`);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/stocks_available`);
       const accionesDisponibles = Object.keys(response.data).map((symbol) => ({
         symbol,
         ...response.data[symbol],
@@ -51,7 +51,7 @@ const OfertaDetalleComponent = () => {
       }
 
       // Realizar la solicitud POST al backend con cantidadAcciones, selectedSymbol y auction_id.
-      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/proposals/send/`, {
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/proposals/send`, {
         "quantity": cantidadAcciones,
         "stock_id": selectedSymbol,
         "auction_id": auctionId, // Asegúrate de tener el valor correcto del auction_id.
