@@ -37,6 +37,9 @@ const NavBar = () => {
         }
     });
 
+  const roles = user && user['https://g13arquitectura.me//roles'];
+  console.log(user);
+
   return (
     <div className="nav-container">
       <Navbar color="light" light expand="md" container={false}>
@@ -55,19 +58,7 @@ const NavBar = () => {
                   Home
                 </NavLink>
               </NavItem>
-              {/* {isAuthenticated && (
-                <NavItem>
-                  <NavLink
-                    tag={RouterNavLink}
-                    to="/external-api"
-                    exact
-                    activeClassName="router-link-exact-active"
-                  >
-                    External API
-                  </NavLink>
-                </NavItem>
-              
-              )} */}
+
               {isAuthenticated && (
                 <NavItem>
                   <NavLink
@@ -81,11 +72,11 @@ const NavBar = () => {
                 </NavItem>
               )}
 
-              {isAuthenticated && (
+              {isAuthenticated && roles && roles.includes('admin') && (
                 <NavItem>
                   <NavLink
                     tag={RouterNavLink}
-                    to="/empresas"  // Ajusta este enlace a la ruta correcta para la billetera
+                    to="/empresas"  
                     exact
                     activeClassName="router-link-exact-active"
                   >
@@ -94,11 +85,50 @@ const NavBar = () => {
                 </NavItem>
               )}
 
+              {isAuthenticated && roles && roles.includes('admin') && (
+                <NavItem>
+                  <NavLink
+                    tag={RouterNavLink}
+                    to="/subasta"  
+                    exact
+                    activeClassName="router-link-exact-active"
+                  >
+                    Acciones G13
+                  </NavLink>
+                </NavItem>
+              )}
+
+              {isAuthenticated && roles && roles.includes('admin') && (
+                <NavItem>
+                  <NavLink
+                    tag={RouterNavLink}
+                    to="/ofertas"  
+                    activeClassName="router-link-exact-active"
+                  >
+                    Ofertas Grupos
+                  </NavLink>
+                </NavItem>
+              )}
+
+              
+              {isAuthenticated && roles && roles.includes('user') && (
+                <NavItem>
+                  <NavLink
+                    tag={RouterNavLink}
+                    to="/empresas-user"  
+                    exact
+                    activeClassName="router-link-exact-active"
+                  >
+                    Acciones G13
+                  </NavLink>
+                </NavItem>
+              )}
+
               {isAuthenticated && (
                 <NavItem>
                   <NavLink
                     tag={RouterNavLink}
-                    to="/compras"  // Ajusta este enlace a la ruta correcta para la billetera
+                    to="/compras"  
                     exact
                     activeClassName="router-link-exact-active"
                   >
@@ -111,11 +141,24 @@ const NavBar = () => {
                 <NavItem>
                   <NavLink
                     tag={RouterNavLink}
-                    to="/predicciones"  // Ajusta este enlace a la ruta correcta para la billetera
+                    to="/predicciones"  
                     exact
                     activeClassName="router-link-exact-active"
                   >
                     Mis Predicciones
+                  </NavLink>
+                </NavItem>
+              )}
+
+              {isAuthenticated && roles && roles.includes('admin') && (
+                <NavItem>
+                  <NavLink
+                    tag={RouterNavLink}
+                    to="/mis-subastas"  
+                    exact
+                    activeClassName="router-link-exact-active"
+                  >
+                    Mis Subastas
                   </NavLink>
                 </NavItem>
               )}

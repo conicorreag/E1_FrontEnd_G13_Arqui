@@ -3,8 +3,7 @@ import { Container, Table } from "reactstrap";
 import Loading from "../components/Loading";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import axios from "axios";
-// import dotenv from 'dotenv';
-// dotenv.config();
+
 
 const ComprasComponent = () => {
   const { user } = useAuth0();
